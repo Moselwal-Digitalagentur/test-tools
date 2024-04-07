@@ -1,0 +1,20 @@
+test:lighthouse:
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: never
+  image: $CI_DEPENDENCY_PROXY_SERVER/cypress/browsers:node16.16.0-chrome107-ff107-edge
+  tags:
+    - docker
+  script:
+    - npm ci -g @lhci/cli@0.10.x
+    - mkdir lhci
+    - lhci autorun
+  needs: ["build:site:test:backend"]
+  artifacts:
+    when: always
+    expose_as: 'Lighthouse Reports'
+    paths: ['lhci/']
+    expire_in: 1 day

@@ -1,0 +1,62 @@
+test:extension:phpmetrics:
+  stage: test
+  image: $PHP_IMAGE
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_REF_NAME != 'release'
+    - if: $CI_COMMIT_REF_NAME == 'release'
+      when: never
+  allow_failure: true
+  needs:
+    - job: lint:phplint
+      optional: true
+    - job: build:extension:frontend
+      optional: true
+    - job: build:extension:backend
+      optional: true
+  tags:
+    - docker
+  before_script:
+    - composer req phpmetrics/phpmetrics
+  script:
+    - .composer/bin/phpmetrics --report-summary-json=phpmetrics/summary.json  --config=phpmetrics/config-non-fail.json --report-html=phpmetrics/html-report/  --git .
+    - |
+      json=$(cat phpmetrics/summary.json)
+      linesOfCode=$(echo $json | jq '.LOC.linesOfCode')
+      color=blue
+      echo "<svg xmlns='http://www.w3.org/2000/svg' width='115' height='20'>
+        <linearGradient id='a' x2='0' y2='100%'>
+        <stop offset='0' stop-color='#bbb' stop-opacity='.1'/>
+        <stop offset='1' stop-opacity='.1'/>
+        </linearGradient>
+        <rect rx='3' width='115' height='20' fill='#555'/>
+        <rect rx='3' x='37' width='78' height='20' fill='${color}'/>
+        <path fill='${color}' d='M37 0h4v20h-4z'/>
+        <rect rx='3' width='115' height='20' fill='url(#a)'/>
+        <g fill='#fff' text-anchor='middle' font-family='DejaVu Sans,Verdana,Geneva,sans-serif' font-size='11'>
+        <text x='57' y='15' fill='#010101' fill-opacity='.3'>Lines of Code</text>
+        <text x='57' y='14'>Lines of Code</text>
+        <text x='98' y='15' fill='#010101' fill-opacity='.3'>${linesOfCode}</text>
+        <text x='98' y='14'>${linesOfCode}</text>
+        </g>
+        </svg>"  > badge-loc.svg
+    - |
+      json=$(cat phpmetrics/summary.json)
+      CCN=$(echo $json | jq '.Complexity.avgCyclomaticComplexityByClass')
+        if [ "$CCN" -gt 10 ]; then
+          echo "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='20'><rect x='0' y='0' width='100' height='20' fill='red'/><text x='50' y='14' font-size='11' fill='white' text-anchor='middle'>CCN: $CCN</text></svg>" > badge-ccn.svg
+        else
+          echo "<svg xmlns='http://www.w3.org/2000/svg' width='100' height='20'><rect x='0' y='0' width='100' height='20' fill='green'/><text x='50' y='14' font-size='11' fill='white' text-anchor='middle'>CCN: $CCN</text></svg>" > badge-ccn.svg
+        fi
+
+    - .composer/bin/phpmetrics --config=phpmetrics/config.json .
+
+  artifacts:
+    when: always
+    expire_in: 1 day
+    paths:
+      - phpmetrics/*
+      - badge-loc.svg
+      - badge-ccn.svg

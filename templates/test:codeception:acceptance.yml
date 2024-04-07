@@ -1,0 +1,45 @@
+test:codeception:acceptance:
+  stage: test
+  allow_failure: true
+  rules:
+    - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  variables:
+    DOCKER_DRIVER: overlay2
+  services:
+    - $CI_DEPENDENCY_PROXY_SERVER/docker:dind
+  image: $CI_DEPENDENCY_PROXY_SERVER/docker:latest
+  before_script:
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
+    - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER --username $CI_DEPENDENCY_PROXY_USER --password-stdin
+  script:
+    - docker pull $PHP_IMAGE
+    - docker pull mariadb:10.7.8
+    - docker run -d --name database $CI_REGISTRY_IMAGE/database:latest
+    - docker create --name demo --link database:db -p 8080:80 mariadb:10.7.8
+    - docker cp . test:/app
+    - docker start test
+    - docker exec test sh -c "cd /app && vendor/bin/codecept run acceptance"
+    - docker stop test
+    - docker stop database
+    - docker rm test
+    - docker rm database
+  after_script:
+    - docker rmi $PHP_IMAGE
+    - docker rmi mariadb:10.7.8
+    - docker logout $CI_REGISTRY
+    - docker logout $CI_DEPENDENCY_PROXY_SERVER
+  needs:
+    - job: build:site:test:backend
+      optional: true
+    - job: build:nightly:test:backend
+      optional: true
+  artifacts:
+    when: always
+    expire_in: 1 day
+    paths:
+      - Tests/_output/*
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: Tests/_output/cobertura.xml
+      junit: Tests/_output/report.xml

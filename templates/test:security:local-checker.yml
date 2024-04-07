@@ -1,0 +1,38 @@
+#
+# Check for lack of vulnerabilities on installed composer packages.
+# Based on https://github.com/fabpot/local-php-security-checker
+#
+security:extension-checker:
+  image: $PHP_IMAGE
+  stage: test
+  needs:
+    - job: lint:phplint
+      optional: true
+    - job: build:extension:frontend
+      optional: true
+    - job: build:extension:backend
+      optional: true
+  allow_failure: false
+  tags:
+    - docker
+  variables:
+    #
+    # It is important to update URL and checksum manually because an automated download
+    # process is way too complex and not that secure. The checksum could be spoofed and
+    # allow for malware to be downloaded instead the actual security tester.
+    #
+    # This values can also be overridden on a project basis if necessary.
+    #
+    SECURITY_CHECKER_DOWNLOAD_URL: https://github.com/fabpot/local-php-security-checker/releases/download/v2.0.6/local-php-security-checker_2.0.6_linux_amd64
+    SECURITY_CHECKER_DOWNLOAD_CHECKSUM: 314309702970bd8f2eed68301c3c42012a938fb8ae5c977c4ab0db57bb69b23c
+    SECURITY_CHECKER_DOWNLOAD_CHECKSUM_TYPE: sha256sum
+  script:
+    - wget --quiet --output-document=local-php-security-checker "$SECURITY_CHECKER_DOWNLOAD_URL"
+
+    # Attention: sha256sum (and probably other algorithms) needs two spaces between checksum and file name!!
+    # More on this: https://github.com/gliderlabs/docker-alpine/issues/174
+    - echo "$SECURITY_CHECKER_DOWNLOAD_CHECKSUM  local-php-security-checker" | $SECURITY_CHECKER_DOWNLOAD_CHECKSUM_TYPE -c -
+
+    - chmod a+x local-php-security-checker
+
+    - ./local-php-security-checker --path=composer.lock --no-dev
