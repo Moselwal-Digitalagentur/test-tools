@@ -6,8 +6,8 @@ test:codeception:acceptance:
   variables:
     DOCKER_DRIVER: overlay2
   services:
-    - $CI_DEPENDENCY_PROXY_SERVER/docker:dind
-  image: $CI_DEPENDENCY_PROXY_SERVER/docker:latest
+    - $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:26.0.0-dind-alpine3.19
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/docker:26.0.0-alpine3.19
   before_script:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER --username $CI_DEPENDENCY_PROXY_USER --password-stdin
