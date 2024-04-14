@@ -1,5 +1,10 @@
+spec:
+  inputs:
+    stage:
+      default: 'test'
+---
 test:lighthouse:
-  stage: test
+  stage: $[[ inputs.stage ]]
   allow_failure: true
   rules:
     - if: $CI_DEPLOY_FREEZE == null && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != "schedule"

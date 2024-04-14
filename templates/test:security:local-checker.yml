@@ -1,10 +1,15 @@
+spec:
+  inputs:
+    stage:
+      default: 'lint'
+---
 #
 # Check for lack of vulnerabilities on installed composer packages.
 # Based on https://github.com/fabpot/local-php-security-checker
 #
 security:extension-checker:
   image: $PHP_IMAGE
-  stage: test
+  stage: $[[ inputs.stage ]]
   needs:
     - job: lint:phplint
       optional: true
