@@ -5,7 +5,7 @@ spec:
 ---
 test:phpstan:
   stage: $[[ inputs.stage ]]
-  image: $PHP_IMAGE
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci
   needs:
     - job: lint:phplint
       optional: true

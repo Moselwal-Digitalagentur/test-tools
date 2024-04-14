@@ -19,7 +19,7 @@ test:codeception:functional:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin
     - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER --username $CI_DEPENDENCY_PROXY_USER --password-stdin
   script:
-    - docker pull $PHP_IMAGE
+    - docker pull registry.moselwal.io/devops/images/php/$PHP_VERSION/ci
     - docker pull $CI_DEPENDENCY_PROXY_SERVER/mariadb:10.7.8
     - docker run -d --name database $CI_REGISTRY_IMAGE/database:latest
     - docker create --name demo --link database:db -p 8080:80 mariadb:10.7.8
@@ -31,7 +31,7 @@ test:codeception:functional:
     - docker rm test
     - docker rm database
   after_script:
-    - docker rmi $PHP_IMAGE
+    - docker rmi registry.moselwal.io/devops/images/php/$PHP_VERSION/ci
     - docker rmi mariadb:10.7.8
     - docker logout $CI_REGISTRY
     - docker logout $CI_DEPENDENCY_PROXY_SERVER
