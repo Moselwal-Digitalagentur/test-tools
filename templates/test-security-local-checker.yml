@@ -8,7 +8,7 @@ spec:
 # Based on https://github.com/fabpot/local-php-security-checker
 #
 security:extension-checker:
-  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci/php-ci
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci/php-ci:latest
   stage: $[[ inputs.stage ]]
   needs:
     - job: lint:phplint
