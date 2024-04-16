@@ -38,9 +38,12 @@ test:codeception:functional:
   needs:
     - job: build:site:test:backend
       optional: true
+      artifacts: true
     - job: build:nightly:test:backend
       optional: true
+      artifacts: true
     - job: build:prepare
+      artifacts: true
   artifacts:
     when: always
     expire_in: 1 day

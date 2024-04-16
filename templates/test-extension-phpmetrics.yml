@@ -19,9 +19,12 @@ test:extension:phpmetrics:
       optional: true
     - job: build:extension:frontend
       optional: true
+      artifacts: true
     - job: build:extension:backend
       optional: true
+      artifacts: true
     - job: build:prepare
+      artifacts: true
   tags:
     - docker
   before_script:

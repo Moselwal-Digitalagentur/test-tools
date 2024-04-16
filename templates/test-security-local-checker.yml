@@ -14,10 +14,13 @@ security:extension-checker:
     - job: lint:phplint
       optional: true
     - job: build:extension:backend
+      artifacts: true
       optional: true
     - job: build:extension:frontend
+      artifacts: true
       optional: true
     - job: build:prepare
+      artifacts: true
   allow_failure: false
   tags:
     - docker

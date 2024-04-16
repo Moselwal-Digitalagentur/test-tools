@@ -10,7 +10,9 @@ test:phpmd:
     - job: lint:phplint
       optional: true
     - job: build:extension:backend
+      artifacts: true
     - job: build:prepare
+      artifacts: true
   rules:
     - if: $CI_COMMIT_TAG
       when: never
