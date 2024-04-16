@@ -21,6 +21,7 @@ test:extension:phpmetrics:
       optional: true
     - job: build:extension:backend
       optional: true
+    - job: build:prepare
   tags:
     - docker
   before_script:

@@ -10,6 +10,7 @@ test:rector:
     - job: lint:phplint
       optional: true
     - job: build:extension:backend
+    - job: build:prepare
   rules:
     - if: $CI_COMMIT_TAG
       when: never

@@ -17,6 +17,7 @@ security:extension-checker:
       optional: true
     - job: build:extension:frontend
       optional: true
+    - job: build:prepare
   allow_failure: false
   tags:
     - docker

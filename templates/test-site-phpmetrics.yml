@@ -17,7 +17,9 @@ test:site:phpmetrics:
     - composer req phpmetrics/phpmetrics
   script:
     - php vendor/bin/phpmetrics --report-summary-json=phpmetrics/summary.json --report-csv=phpmetrics/report.csv --report-html=phpmetrics/html-report/   --report-violations=phpmetrics/violations.xml --git --config=phpmetrics/config.json .
-  needs: [ "build:site:test:backend" ]
+  needs:
+    - job: build:site:test:backend
+    - job: build:prepare
   artifacts:
     when: always
     expire_in: 1 day
