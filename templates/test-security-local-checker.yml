@@ -1,7 +1,7 @@
 spec:
   inputs:
     stage:
-      default: 'lint'
+      default: 'test'
 ---
 #
 # Check for lack of vulnerabilities on installed composer packages.
@@ -13,9 +13,9 @@ security:extension-checker:
   needs:
     - job: lint:phplint
       optional: true
-    - job: build:extension:frontend
-      optional: true
     - job: build:extension:backend
+      optional: true
+    - job: build:extension:frontend
       optional: true
   allow_failure: false
   tags:

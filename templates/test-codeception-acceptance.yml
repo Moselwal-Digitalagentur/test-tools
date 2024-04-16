@@ -1,7 +1,7 @@
 spec:
   inputs:
     stage:
-      default: 'lint'
+      default: 'test'
 ---
 test:codeception:acceptance:
   stage: $[[ inputs.stage ]]
