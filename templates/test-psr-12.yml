@@ -24,4 +24,4 @@ test:psr-12:
     - docker
   allow_failure: false
   script:
-    - .composer/bin/php-cs-fixer fix --config .php-cs-fixer.dist.php -v --dry-run --using-cache no --diff
+    - .composer/bin/php-cs-fixer fix --config .php-cs-fixer.php -v --dry-run --using-cache no --diff
