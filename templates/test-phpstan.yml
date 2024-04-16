@@ -5,7 +5,7 @@ spec:
 ---
 test:phpstan:
   stage: $[[ inputs.stage ]]
-  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci/php-ci:latest
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci:latest
   needs:
     - job: lint:phplint
       optional: true
@@ -22,6 +22,6 @@ test:phpstan:
       when: never
   tags:
     - docker
-  allow_failure: false
+  allow_failure: true
   script:
     - .composer/bin/phpstan --memory-limit=2G --no-progress

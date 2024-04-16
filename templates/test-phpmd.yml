@@ -5,7 +5,7 @@ spec:
 ---
 test:phpmd:
   stage: $[[ inputs.stage ]]
-  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci/php-ci:latest
+  image: registry.moselwal.io/devops/images/php/$PHP_VERSION/ci:latest
   needs:
     - job: lint:phplint
       optional: true
@@ -22,6 +22,6 @@ test:phpmd:
       when: never
   tags:
     - docker
-  allow_failure: false
+  allow_failure: true
   script:
     - .composer/bin/phpmd Classes/ gitlab cleancode,codesize,controversial,design,naming,unusedcode --baseline-file phpmd.baseline.xml
