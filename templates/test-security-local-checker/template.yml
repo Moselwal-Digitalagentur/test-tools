@@ -1,0 +1,85 @@
+#  Moselwal Digitalagentur Release Tools
+#    Copyright (C) 2024  Moselwal Digitalagentur GmbH, Kai Ole Hartwig <support@moselwal.de>
+#
+#  This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+spec:
+  inputs:
+    stage:
+      default: 'test'
+      description: "The stage in the CI/CD pipeline where this job will run.  "
+    rules-config:
+      description: "Configuration rules that determine when the job should run."
+      type: array
+      default:
+        - if: $CI_DEPLOY_FREEZE == null && ($CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null) || $CI_PIPELINE_SOURCE == 'merge_request_event'
+          exists:
+            - ./**/*.php
+        - when: never
+    needs-config:
+      description: "Configure the jobs that needed to run this job."
+      type: array
+      default:
+        - job: lint:phplint
+          optional: true
+        - job: build:extension:backend
+          artifacts: true
+          optional: true
+        - job: build:prepare
+          artifacts: true
+          optional: true
+    image-config:
+      description: "The Docker image to use for the job. This should use semantic versioning."
+      default: "registry.moselwal.io/devops/images/php/$PHP_VERSION/ci:latest"
+    tags-config:
+      description: "Tags used to select specific runners to execute the job."
+      type: array
+      default:
+        - amd64
+    additional-script-begin:
+      description: "Add additional Script at the beginning of the Script."
+      default: ''
+    additional-script-end:
+      description: "Add additional Script at the end of the Script."
+      default: ''
+    security_checker_download_url:
+      default: "https://github.com/fabpot/local-php-security-checker/releases/download/v2.1.3/local-php-security-checker_linux_amd64"
+    security_checker_download_checksum:
+      default: "db03c8c1806924081093fb6e3f752597a6d2ed6aea4621365e87e69d4814fd6c"
+    security_checker_download_checksum_type:
+      default: "sha256sum"
+---
+#
+# Check for lack of vulnerabilities on installed composer packages.
+# Based on https://github.com/fabpot/local-php-security-checker
+#
+security:extension-checker:
+  stage: $[[ inputs.stage ]]
+  image: $[[ inputs.image-config | expand_vars ]]
+  needs: $[[ inputs.needs-config ]]
+  rules: $[[ inputs.rules-config ]]
+  allow_failure: false
+  tags: $[[ inputs.tags-config ]]
+  script:
+    - $[[ inputs.additional-script-begin ]]
+    - wget --quiet --output-document=local-php-security-checker "$[[ inputs.security_checker_download_url ]]"
+
+    # Attention: sha256sum (and probably other algorithms) needs two spaces between checksum and file name!!
+    # More on this: https://github.com/gliderlabs/docker-alpine/issues/174
+    - echo "$[[ inputs.security_checker_download_checksum ]]  local-php-security-checker" | $[[ inputs.security_checker_download_checksum_type ]] -c -
+
+    - chmod a+x local-php-security-checker
+
+    - ./local-php-security-checker --path=composer.lock --no-dev
+    - $[[ inputs.additional-script-end ]]
