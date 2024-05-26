@@ -5,7 +5,7 @@ stages: [build, test, release]
 #  - component: ${CI_SERVER_FQDN}/${CI_PROJECT_PATH}/test:codeception:@$CI_COMMIT_SHA
 
 include:
-  - component: ${CI_SERVER_FQDN}/devops/ci-cd-components/release-tools/semantic-release@1.0.6
+  - component: ${CI_SERVER_FQDN}/devops/ci-cd-components/release-tools/semantic-release@1.7.0
     inputs:
       stage: release
 
