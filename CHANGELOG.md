@@ -1,3 +1,10 @@
+## [1.2.2](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.2.1...1.2.2) (2024-05-28)
+
+
+### :bug: Fixes
+
+* naming coverage.cobertura.xml ([74ac6e8](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/74ac6e807c8639c34f79146a7948a336b0c61d6b)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.2.1](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.2.0...1.2.1) (2024-05-28)
 
 
