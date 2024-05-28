@@ -75,5 +75,5 @@ test:phpunit:unit:
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: cobertura.coverage.xml
+        path: coverage.cobertura.xml
 
