@@ -25,7 +25,7 @@ spec:
       default:
         - if: ($CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null) || $CI_PIPELINE_SOURCE == 'merge_request_event'
           exists:
-            - codeception.yml
+            - UnitTests.xml
         - when: never
     needs-config:
       description: "Configure the jobs that needed to run this job."
@@ -54,7 +54,7 @@ spec:
       description: "Add additional Script at the end of the Script."
       default: ''
 ---
-test:codeception:unit:
+test:phpunit:unit:
   stage: $[[ inputs.stage ]]
   image: $[[ inputs.image-config | expand_vars ]]
   needs: $[[ inputs.needs-config ]]
@@ -63,16 +63,15 @@ test:codeception:unit:
   tags: $[[ inputs.tags-config ]]
   script:
     - $[[ inputs.additional-script-begin ]]
-    - .composer/bin/codecept run unit --xml --coverage --coverage-cobertura --coverage-xml --coverage-html
+    - php .composer/bin/phpunit --coverage-text --colors=never --coverage-cobertura=coverage.cobertura.xml -c Tests/UnitTests.xml
     - $[[ inputs.additional-script-end ]]
   artifacts:
     when: always
     expire_in: 1 day
     paths:
-      - Tests/_output/*
+      - cobertura.coverage.xml
     reports:
       coverage_report:
         coverage_format: cobertura
-        path: Tests/_output/cobertura.xml
-      junit: Tests/_output/report.xml
+        path: cobertura.coverage.xml
 

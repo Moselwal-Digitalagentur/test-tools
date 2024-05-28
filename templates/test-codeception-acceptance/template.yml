@@ -25,7 +25,7 @@ spec:
       default:
         - if: $CI_DEPLOY_FREEZE == null && ($CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null) || $CI_PIPELINE_SOURCE == 'merge_request_event'
           exists:
-            - ./**/*.php
+            - codeception.yml
         - when: never
     needs-config:
       description: "Configure the jobs that needed to run this job."
