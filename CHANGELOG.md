@@ -1,3 +1,10 @@
+## [1.3.1](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.0...1.3.1) (2024-06-04)
+
+### :bug: Fixes
+
+* bump release tools ([ad8a127](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/ad8a12785d495bebf7699e2322660d7b9ebafbd4)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+* update rules ([c94f704](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/c94f704107992b8cc9a44744ebcf52a8ba96e3c6)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.3.0](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.2.2...1.3.0) (2024-05-28)
 
 
