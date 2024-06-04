@@ -23,7 +23,7 @@ spec:
       description: "Configuration rules that determine when the job should run."
       type: array
       default:
-        - if: $CI_DEPLOY_FREEZE == null && ($CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS == null) || $CI_PIPELINE_SOURCE == 'merge_request_event'
+        - if: $CI_DEPLOY_FREEZE == null && (($CI_COMMIT_BRANCH != 'release' && $CI_OPEN_MERGE_REQUESTS == null) || ($CI_COMMIT_BRANCH != 'release' && $CI_PIPELINE_SOURCE == 'merge_request_event'))
           exists:
             - codeception.yml
         - when: never
