@@ -1,3 +1,9 @@
+## [1.3.3](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.2...1.3.3) (2024-06-10)
+
+### :bug: Fixes
+
+* update rules, dont execute test-jobs on mr from release to main ([94922f2](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/94922f2ec73a866cb1f413cd61ba72c3a8786ce2)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.3.2](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.1...1.3.2) (2024-06-10)
 
 ### :bug: Fixes
