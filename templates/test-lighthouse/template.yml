@@ -57,9 +57,10 @@ test:lighthouse:
   tags: $[[ inputs.tags-config ]]
   script:
     - $[[ inputs.additional-script-begin ]]
-    - npm ci -g @lhci/cli@0.10.x
+    - npm install -g @lhci/cli@0.10.x
     - mkdir lhci
-    - lhci autorun
+    - lhci autorun --collect.staticDistDir=./lhci
+
     - $[[ inputs.additional-script-end ]]
   artifacts:
     when: always
