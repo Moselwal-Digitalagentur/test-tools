@@ -1,3 +1,9 @@
+## [1.3.2](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.1...1.3.2) (2024-06-10)
+
+### :bug: Fixes
+
+* update rules, dont execute test-jobs on Tags ([3614f63](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/3614f63806df1661a68ae2fc896d3a831b1ce61c)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.3.1](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.0...1.3.1) (2024-06-04)
 
 ### :bug: Fixes
