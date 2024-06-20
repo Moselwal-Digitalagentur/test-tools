@@ -1,3 +1,9 @@
+## [1.4.0](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.3...1.4.0) (2024-06-20)
+
+### :sparkles: Features
+
+* codecovearge in MR ([8c30bed](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/8c30bed09f3d3ed52bde96f7421e5c25ed4048a2)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.3.3](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.3.2...1.3.3) (2024-06-10)
 
 ### :bug: Fixes
