@@ -67,6 +67,7 @@ test:codeception:unit:
     - $[[ inputs.additional-script-begin ]]
     - .composer/bin/codecept run unit --xml --coverage --coverage-cobertura --coverage-xml --coverage-html
     - $[[ inputs.additional-script-end ]]
+  coverage: '/^\s*Lines:\s*\d+.\d+\%/'
   artifacts:
     when: always
     expire_in: 1 day

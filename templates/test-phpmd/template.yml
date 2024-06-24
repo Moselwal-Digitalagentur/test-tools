@@ -55,6 +55,9 @@ spec:
     additional-script-end:
       description: "Add additional Script at the end of the Script."
       default: ''
+    phpmd-rules-config:
+      description: "Set Rules for phpmd"
+      default: 'cleancode,codesize,controversial,design,naming,unusedcode'
 ---
 test:phpmd:
   stage: $[[ inputs.stage ]]
@@ -65,5 +68,5 @@ test:phpmd:
   tags: $[[ inputs.tags-config ]]
   script:
     - $[[ inputs.additional-script-begin ]]
-    - .composer/bin/phpmd Classes/ gitlab cleancode,codesize,controversial,design,naming,unusedcode --baseline-file phpmd.baseline.xml
+    - .composer/bin/phpmd Classes/ gitlab $[[ inputs.phpmd-rules-config ]] --baseline-file phpmd.baseline.xml
     - $[[ inputs.additional-script-end ]]
