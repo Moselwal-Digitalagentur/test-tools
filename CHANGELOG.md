@@ -1,3 +1,9 @@
+## [1.6.0](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.5.0...1.6.0) (2024-06-24)
+
+### :sparkles: Features
+
+* add codequality report for phpmd and phpstan ([ec0127f](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/commit/ec0127f70b51fa3af40959cf18e9566806cfe3cf)), closes [no-issue#0](https://gitlab.moselwal.io/devops/no-issue/issues/0)
+
 ## [1.5.0](https://gitlab.moselwal.io/devops/ci-cd-components/test-tools/compare/1.4.0...1.5.0) (2024-06-24)
 
 ### :sparkles: Features
