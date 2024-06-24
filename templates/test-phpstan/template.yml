@@ -65,5 +65,9 @@ test:phpstan:
   tags: $[[ inputs.tags-config ]]
   script:
     - $[[ inputs.additional-script-begin ]]
-    - .composer/bin/phpstan --memory-limit=2G --no-progress
+    - .composer/bin/phpstan --memory-limit=2G --no-progress --error-format gitlab > phpstan-report.json
     - $[[ inputs.additional-script-end ]]
+  artifacts:
+    when: always
+    reports:
+      codequality: "./phpstan-report.json"

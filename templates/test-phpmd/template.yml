@@ -68,5 +68,9 @@ test:phpmd:
   tags: $[[ inputs.tags-config ]]
   script:
     - $[[ inputs.additional-script-begin ]]
-    - .composer/bin/phpmd Classes/ gitlab $[[ inputs.phpmd-rules-config ]] --baseline-file phpmd.baseline.xml
+    - .composer/bin/phpmd Classes/ gitlab $[[ inputs.phpmd-rules-config ]] --baseline-file phpmd.baseline.xml > phpmd-report.json
     - $[[ inputs.additional-script-end ]]
+  artifacts:
+    when: always
+    reports:
+      codequality: phpmd-report.json
